@@ -1,6 +1,7 @@
 from codecs import open
 from subprocess import call
 from os.path import abspath, dirname, join
+
 from setuptools import setup
 
 from pomodoro import __version__
@@ -9,6 +10,7 @@ from pomodoro import __version__
 this_dir = abspath(dirname(__file__))
 with open(join(this_dir, 'README.rst'), encoding='utf-8') as file:
     long_description = file.read()
+
 
 class RunTests(Command):
     """Run all Tests"""
@@ -29,16 +31,18 @@ class RunTests(Command):
 setup(
     name="Pomodoro_Rada",
     version=__version__,
-    entry_points={'console_scripts': ['Rada=Rada.cli:main', ], },
-    description="",
+    entry_points={'console_scripts': ['Rada=pomodoro.cli:main', ], },
+    description="A command line application to implement pomodoro technique",
     long_description=long_description,
-    url="",
+    url="https://github.com/ProberI/bc-15-pomodoro_Rada",
     author="Paul Upendo",
     authorEmail="lovepaul46@outlook.com",
     LICENSE="UNLICENSED",
     classifiers=[""],
     install_requires=['docopt'],
-    packages=find_packages(exclude=['docs', 'venv', 'tests*'])
+    packages=find_packages(exclude=['docs', 'venv', 'tests*']),
+    keywords='cli'
+
 )
 
 
