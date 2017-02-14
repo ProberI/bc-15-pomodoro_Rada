@@ -1,8 +1,0 @@
-venv/*
-.cache
-build
-dist
-simpletimer.py
-timer.py
-timer3.py
-__pychache__/*
