@@ -7,9 +7,6 @@ from subprocess import call
 
 from setuptools import Command, find_packages, setup
 
-from pomodoro import __version__
-
-
 this_dir = abspath(dirname(__file__))
 with open(join(this_dir, 'README.rst'), encoding='utf-8') as file:
     long_description = file.read()
@@ -35,7 +32,7 @@ class RunTests(Command):
 
 setup(
     name = 'pomodoro',
-    version = __version__,
+    version = '1.0.0',
     description = 'A skeleton command line program in Python.',
     long_description = long_description,
     url = 'https://github.com/ProberI/bc-15-pomodoro_Rada',
