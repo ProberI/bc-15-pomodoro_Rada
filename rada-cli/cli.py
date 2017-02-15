@@ -23,7 +23,8 @@ Options:
 import sys
 import cmd
 from docopt import docopt, DocoptExit
-from pomodoro import Pomo
+from pomo import Pomodoro
+
 
 
 def docopt_cmd(func):
@@ -65,20 +66,32 @@ class Rada_CLI (cmd.Cmd):
 
     @docopt_cmd
     def do_start(self, arg):
-        """Usage: start <task-title>"""
+        """ Usage: start <task-title> """
         task = arg['<task-title>']
+        '''duration = int(arg['--duration'])
+        short_break = int(arg['--short_break'])
+        long_break = int(arg['--long_break'])
+        rada.start(task, duration, short_break, long_break)'''
+        rada.start(task)
         print(arg)
-        Pomo.start(task)
+
 
     @docopt_cmd
-    def do_serial(self, arg):
-        """Usage: serial <port> [--baud=<n>] [--timeout=<seconds>]
+    def do_config_time(self, arg):
+        """ Usage: config_time <duration-in-minutes> """
+        rada.config_app(task_dur=arg['<duration-in-minutes>'])
 
-Options:
-    --baud=<n>  Baudrate [default: 9600]
-        """
+    @docopt_cmd
+    def do_config_short_break(self, arg):
+        """Usage: config_short_break <desired-duration>"""
+        rada.config_app(short_break=arg['<desired-duration>'])
 
-        print(arg)
+    @docopt_cmd
+    def do_config_long_break(self, arg):
+        """Usage: config_long_break <desired-duration>"""
+        rada.config_app(long_break=arg['<desired-duration>'])
+
+
 
     def do_quit(self, arg):
         """Quits out of Interactive Mode."""
@@ -89,7 +102,7 @@ Options:
 opt = docopt(__doc__, sys.argv[1:])
 
 if opt['--interactive']:
-    rada = Pomo()
+    rada = Pomodoro()
     Rada_CLI().cmdloop()
 
 
