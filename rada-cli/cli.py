@@ -26,6 +26,7 @@ from docopt import docopt, DocoptExit
 from pomodoro import Pomo
 
 
+
 def docopt_cmd(func):
     """
     This decorator is used to simplify the try/except block and pass the result
@@ -71,14 +72,13 @@ class Rada_CLI (cmd.Cmd):
         Pomo.start(task)
 
     @docopt_cmd
-    def do_serial(self, arg):
-        """Usage: serial <port> [--baud=<n>] [--timeout=<seconds>]
-
-Options:
-    --baud=<n>  Baudrate [default: 9600]
+    def do_config_time(self, args):
         """
+        Usage: config_time <duration-in-minutes>
+        """
+        print(Pomo.config_app(task_time=args['<duration-in-minutes>']))
 
-        print(arg)
+        print(args)
 
     def do_quit(self, arg):
         """Quits out of Interactive Mode."""

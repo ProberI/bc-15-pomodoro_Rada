@@ -1,4 +1,4 @@
-from os import system
+import sys
 import time
 
 class Pomo(object):
@@ -17,18 +17,13 @@ class Pomo(object):
         self.title = title
         print(title + "\tStart Time : %s" % self.start_time)
         self.stop = False
-        self.pomo_control()
-
 
 
     def timer(self, t):
         while t:
-            mins, secs = divmod(t, 60)
-            timeformat = '{:02d}:{:02d}'.format(mins, secs)
-            print(timeformat,end='\t')
-           # print('task' +self.title)
-            time.sleep(1)
-            t -= 1
+            for i in range(t, 0, -1):
+                time.sleep(1)
+                s
 
 
     def pomo_control(self):
@@ -56,6 +51,7 @@ class Pomo(object):
                     self.cycles += 1
             except KeyboardInterrupt:
                 print('Interrupting')
+
     def config_app(self, **args):
         try:
             for key in args:
@@ -69,13 +65,9 @@ class Pomo(object):
         except TypeError:
             return 'Please allocate time as number'
 
-    def stop(self):
+    def stop_run(self):
         self.stop = True
+        print('Tasks stopped')
 
-
-
-
-
-
-
-Pomo().timer(25)
+p=Pomo()
+p.timer(3)
