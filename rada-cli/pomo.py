@@ -4,8 +4,9 @@ from func import format_time
 
 
 class Pomodoro(object):
-    def __init__(self, task_dur=10, short_break=5, long_break=10):
+    def __init__(self, task_dur=10, short_break=5, long_break=10, sound_state=True):
         self.task_dur = task_dur
+        self.sound_state = sound_state
         self.short_break = short_break
         self.long_break = long_break
         self.cycle = 0
@@ -15,7 +16,10 @@ class Pomodoro(object):
         self.sound = mixer.Sound("w.wav")
 
     def play_sound(self):
-        self.sound.play()
+        if self.sound_state:
+            self.sound.play()
+        else:
+            print('Sound alert off')
 
     def timer(self, t):
 
@@ -46,7 +50,10 @@ class Pomodoro(object):
             self.timer(self.task_dur)
             if self.cycle == 3:
                 self.sound = mixer.Sound("l.wav")
-                self.sound.play()
+                if self.sound_state:
+                    self.sound.play()
+                else:
+                    print('Sound alert is off')
                 print('Take a long_break')
                 time.sleep(self.long_break)
                 self.cycle = 0
@@ -66,15 +73,13 @@ class Pomodoro(object):
                     self.short_break = int(kwargs[key])
                 elif key == 'long_break':
                     self.long_break = int(kwargs[key])
-                elif key == 'sound':
+                elif key == 'sound_state':
                     if kwargs[key] == 'True' or kwargs[key] == 'False' or kwargs[key] == 'true' or kwargs[
                         key] == 'false':
-                        self.sound = kwargs[key]
+                        self.sound_state = kwargs[key]
         except:
             return 'Please provide numeric value for config'
 
     def stop_app(self):
         self.stop = True
         print(self.title + ' Is completed')
-
-
