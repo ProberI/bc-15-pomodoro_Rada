@@ -23,7 +23,7 @@ Options:
 import sys
 import cmd
 from docopt import docopt, DocoptExit
-from pomodoro import Pomo
+from pomo import Pomodoro
 
 
 
@@ -66,19 +66,22 @@ class Rada_CLI (cmd.Cmd):
 
     @docopt_cmd
     def do_start(self, arg):
-        """Usage: start <task-title>"""
+        """ Usage: start <task-title> """
         task = arg['<task-title>']
+        '''duration = int(arg['--duration'])
+        short_break = int(arg['--short_break'])
+        long_break = int(arg['--long_break'])
+        rada.start(task, duration, short_break, long_break)'''
+        rada.start(task)
         print(arg)
-        Pomo.start(task)
+
 
     @docopt_cmd
-    def do_config_time(self, args):
-        """
-        Usage: config_time <duration-in-minutes>
-        """
-        print(Pomo.config_app(task_time=args['<duration-in-minutes>']))
+    def do_config_time(self, arg):
+        """ Usage: config_time <duration-in-minutes> """
+        rada.config_app(task_dur=arg['<duration-in-minutes>'])
 
-        print(args)
+
 
     def do_quit(self, arg):
         """Quits out of Interactive Mode."""
@@ -89,7 +92,7 @@ class Rada_CLI (cmd.Cmd):
 opt = docopt(__doc__, sys.argv[1:])
 
 if opt['--interactive']:
-    rada = Pomo()
+    rada = Pomodoro()
     Rada_CLI().cmdloop()
 
 
