@@ -56,6 +56,23 @@ class Pomo(object):
                     self.cycles += 1
             except KeyboardInterrupt:
                 print('Interrupting')
+    def config_app(self, **args):
+        try:
+            for key in args:
+                if key == 'task_time':
+                    self.task_dur = int(args[key])
+                elif key == 'short_break':
+                    self.short_break = int(args[key])
+                elif key == 'long_break':
+                    self.long_break = int(args[key])
+
+        except TypeError:
+            return 'Please allocate time as number'
+
+    def stop(self):
+        self.stop = True
+
+
 
 
 
