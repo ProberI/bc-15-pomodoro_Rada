@@ -90,11 +90,11 @@ class Rada_CLI (cmd.Cmd):
     def do_config_long_break(self, arg):
         """Usage: config_long_break <desired-duration>"""
         rada.config_app(long_break=arg['<desired-duration>'])
+
     @docopt_cmd
     def do_config_sound(self, arg):
         """Usage: config_sound <True-False>"""
         rada.config_app(sound_state=arg['<True-False>'])
-        print(arg)
 
     def do_quit(self, arg):
         """Quits out of Interactive Mode."""

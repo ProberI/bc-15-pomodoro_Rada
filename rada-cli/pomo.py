@@ -45,7 +45,6 @@ class Pomodoro(object):
         self.cycle_control()
 
     def cycle_control(self):
-        p = Pomodoro()
         while not self.stop:
             self.timer(self.task_dur)
             if self.cycle == 3:
@@ -59,7 +58,8 @@ class Pomodoro(object):
                 self.cycle = 0
             else:
                 self.sound = mixer.Sound("w.wav")
-                p.play_sound()
+
+                self.play_sound()
                 print('Take a short break')
                 time.sleep(self.short_break)
                 self.cycle += 1
@@ -74,9 +74,10 @@ class Pomodoro(object):
                 elif key == 'long_break':
                     self.long_break = int(kwargs[key])
                 elif key == 'sound_state':
-                    if kwargs[key] == 'True' or kwargs[key] == 'False' or kwargs[key] == 'true' or kwargs[
-                        key] == 'false':
-                        self.sound_state = kwargs[key]
+                    if kwargs[key] == 'True' or kwargs[key] == 'true':
+                        self.sound_state = True
+                    elif kwargs[key] == 'False' or kwargs[key] == 'false':
+                        self.sound_state = False
         except:
             return 'Please provide numeric value for config'
 
