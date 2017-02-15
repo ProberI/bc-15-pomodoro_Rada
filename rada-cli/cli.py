@@ -6,7 +6,7 @@ Usage:
     pomodoro start <task-title>
     pomodoro list <date>
     pomodoro list_all
-    pomodoro config short_break | long_break | sound
+    pomodoro config_ short_break | long_break | sound
     pomodoro clear
     pomodoro (-i | --interactive)
     pomodoro (-h | --help | --version)
