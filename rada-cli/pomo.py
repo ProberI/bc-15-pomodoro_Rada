@@ -13,7 +13,7 @@ class Pomodoro(object):
         self.stop = False
 
     def timer(self, t):
-        t = self.task_dur
+
         while t:
             for i in range(t, 0, -1):
                 time.sleep(1)
@@ -34,12 +34,13 @@ class Pomodoro(object):
         while not self.stop:
             self.timer(self.task_dur)
             if self.cycle == 3:
-                self.timer(self.long_break)
-                self.cycle = 0
+               print('long_break')
+               time.sleep(self.long_break)
+               self.cycle = 0
             else:
-                self.timer(self.short_break)
+                print('short break')
+                time.sleep(self.short_break)
                 self.cycle += 1
-
 
 p = Pomodoro()
 p.start('Kanu')
