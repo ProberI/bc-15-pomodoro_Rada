@@ -1,16 +1,21 @@
 import time
-
+from pygame import mixer
 from func import format_time
 
 
 class Pomodoro(object):
-    def __init__(self, task_dur=10, short_break=5, long_break=15):
+    def __init__(self, task_dur=10, short_break=5, long_break=10):
         self.task_dur = task_dur
         self.short_break = short_break
         self.long_break = long_break
         self.cycle = 0
         self.start_time = time.ctime()
         self.stop = False
+        mixer.init()
+        self.sound = mixer.Sound("w.wav")
+
+    def play_sound(self):
+        self.sound.play()
 
     def timer(self, t):
 
@@ -21,6 +26,7 @@ class Pomodoro(object):
                 t -= 1
 
     '''def start(self, title, duration = None, short_break = None, long_break = None):'''
+
     def start(self, title):
         """self.task_dur = duration
         self.short_break = short_break
@@ -35,13 +41,18 @@ class Pomodoro(object):
         self.cycle_control()
 
     def cycle_control(self):
+        p = Pomodoro()
         while not self.stop:
             self.timer(self.task_dur)
             if self.cycle == 3:
-               print('Take a long_break')
-               time.sleep(self.long_break)
-               self.cycle = 0
+                self.sound = mixer.Sound("l.wav")
+                self.sound.play()
+                print('Take a long_break')
+                time.sleep(self.long_break)
+                self.cycle = 0
             else:
+                self.sound = mixer.Sound("w.wav")
+                p.play_sound()
                 print('Take a short break')
                 time.sleep(self.short_break)
                 self.cycle += 1
@@ -56,7 +67,8 @@ class Pomodoro(object):
                 elif key == 'long_break':
                     self.long_break = int(kwargs[key])
                 elif key == 'sound':
-                    if kwargs[key] == 'True' or kwargs[key] == 'False' or kwargs[key] == 'true' or kwargs[key] == 'false':
+                    if kwargs[key] == 'True' or kwargs[key] == 'False' or kwargs[key] == 'true' or kwargs[
+                        key] == 'false':
                         self.sound = kwargs[key]
         except:
             return 'Please provide numeric value for config'
@@ -64,7 +76,5 @@ class Pomodoro(object):
     def stop_app(self):
         self.stop = True
         print(self.title + ' Is completed')
-
-
 
 
