@@ -1,3 +1,4 @@
+from os import system
 import time
 
 class Pomo(object):
@@ -20,52 +21,44 @@ class Pomo(object):
 
 
 
-    def timer(self, duration):
-        try:
-            print(self.start_time + 'work now')
-            duration = self.task_dur
-            int(duration) * 60
-            time.sleep(duration)
-            print(self.start_time + 'rest now')
-            duration = self.short_break
-            int(duration) * 60
-            time.sleep(duration)
-            print(self.start_time + 'Cycle complete')
-            if self.cycles == 3:
-                print('third Cycle' + duration)
-
-        except KeyboardInterrupt:
-            print('Interrupting')
+    def timer(self, t):
+        while t:
+            mins, secs = divmod(t, 60)
+            timeformat = '{:02d}:{:02d}'.format(mins, secs)
+            print(timeformat,end='\t')
+           # print('task' +self.title)
+            time.sleep(1)
+            t -= 1
 
 
     def pomo_control(self):
         while not self.stop:
-            self.timer(self.task_dur)
-            if self.cycles == 3:
-                self.timer(self.long_break)
-                self.cycles = 0
-            else:
-                self.timer(self.short_break)
-                self.cycles += 1
+            # self.timer(self.task_dur)
+
+            try:
+                print(self.start_time + 'work now')
+                duration = self.task_dur
+
+                int(duration) * 60
+                time.sleep(duration)
+                print(self.start_time + 'rest now')
+                duration = self.short_break
+                int(duration) * 60
+                time.sleep(duration)
+                print(self.start_time + 'Cycle complete')
+
+                if self.cycles == 3:
+                    self.timer(self.long_break)
+                    self.cycles = 0
+                    print('third Cycle' + str(duration))
+                else:
+                    self.timer(self.short_break)
+                    self.cycles += 1
+            except KeyboardInterrupt:
+                print('Interrupting')
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Pomo().timer(25)
