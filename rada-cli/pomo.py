@@ -61,11 +61,10 @@ class Pomodoro(object):
         except:
             return 'Please provide numeric value for config'
 
-
-
     def stop_app(self):
         self.stop = True
-        print('Timer Stopped')
+        print(self.title + ' Is completed')
+
 
 
 

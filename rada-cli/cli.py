@@ -81,6 +81,16 @@ class Rada_CLI (cmd.Cmd):
         """ Usage: config_time <duration-in-minutes> """
         rada.config_app(task_dur=arg['<duration-in-minutes>'])
 
+    @docopt_cmd
+    def do_config_short_break(self, arg):
+        """Usage: config_short_break <desired-duration>"""
+        rada.config_app(short_break=arg['<desired-duration>'])
+
+    @docopt_cmd
+    def do_config_long_break(self, arg):
+        """Usage: config_long_break <desired-duration>"""
+        rada.config_app(long_break=arg['<desired-duration>'])
+
 
 
     def do_quit(self, arg):
