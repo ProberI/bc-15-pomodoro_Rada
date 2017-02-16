@@ -52,24 +52,27 @@ class Pomodoro(object):
         self.cycle_control()
 
     def cycle_control(self):
-        while not self.stop:
-            self.timer(self.task_dur)
-            if self.cycle == 3:
-                self.sound = mixer.Sound("l.wav")
-                if self.sound_state:
-                    self.sound.play()
+        try:
+            while True:
+                self.timer(self.task_dur)
+                if self.cycle == 3:
+                    self.sound = mixer.Sound("l.wav")
+                    if self.sound_state:
+                        self.sound.play()
+                    else:
+                        print('\tSound alert is off')
+                    print('\tTake a long_break')
+                    time.sleep(self.long_break)
+                    self.cycle = 0
                 else:
-                    print('\tSound alert is off')
-                print('\tTake a long_break')
-                time.sleep(self.long_break)
-                self.cycle = 0
-            else:
-                self.sound = mixer.Sound("w.wav")
+                    self.sound = mixer.Sound("w.wav")
 
-                self.play_sound()
-                print('\tTake a short break')
-                time.sleep(self.short_break)
-                self.cycle += 1
+                    self.play_sound()
+                    print('\tTake a short break')
+                    time.sleep(self.short_break)
+                    self.cycle += 1
+        except KeyboardInterrupt:
+            self.stop_app(self.title)
 
     def config_app(self, **kwargs):
         try:
@@ -85,12 +88,13 @@ class Pomodoro(object):
                         self.sound_state = True
                     elif kwargs[key] == 'False' or kwargs[key] == 'false':
                         self.sound_state = False
-        except:
+        except ValueError:
             return 'Please provide numeric value for config'
 
-    def stop_app(self):
+    def stop_app(self, title):
+        self.title = title
         self.stop = True
-        print(self.title + ' Is completed')
+        print('\n' + title + '  Is completed')
 
     def insert(self):
         engine = create_engine("sqlite:///tasklist.db")
