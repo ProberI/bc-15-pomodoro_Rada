@@ -19,7 +19,6 @@ Options:
 
 """
 
-
 import sys
 import cmd
 from docopt import docopt, DocoptExit
@@ -31,6 +30,7 @@ def docopt_cmd(func):
     This decorator is used to simplify the try/except block and pass the result
     of the docopt parsing to the called action.
     """
+
     def fn(self, arg):
         try:
             opt = docopt(fn.__doc__, arg)
@@ -57,9 +57,9 @@ def docopt_cmd(func):
     return fn
 
 
-class Rada_CLI (cmd.Cmd):
+class Rada_CLI(cmd.Cmd):
     intro = 'Welcome to my interactive pomodoro timer!' \
-        + ' (type help for a list of commands.)'
+            + ' (type help for a list of commands.)'
     prompt = 'pomodoro -->'
     file = None
 
@@ -73,7 +73,6 @@ class Rada_CLI (cmd.Cmd):
         rada.start(task, duration, short_break, long_break)'''
         rada.start(task)
         print(arg)
-
 
     @docopt_cmd
     def do_config_time(self, arg):
@@ -95,11 +94,17 @@ class Rada_CLI (cmd.Cmd):
         """Usage: config_sound <True-False>"""
         rada.config_app(sound_state=arg['<True-False>'])
 
+    @docopt_cmd
+    def do_list(self, arg):
+        """Usage: list"""
+        rada.query()
+
     def do_quit(self, arg):
         """Quits out of Interactive Mode."""
 
         print('Good Bye!')
         exit()
+
 
 opt = docopt(__doc__, sys.argv[1:])
 
@@ -107,6 +112,4 @@ if opt['--interactive']:
     rada = Pomodoro()
     Rada_CLI().cmdloop()
 
-
 print(opt)
-
