@@ -90,7 +90,7 @@ class Pomodoro(object):
         print(self.title + ' Is completed')
 
     def insert(self):
-        engine = create_engine("sqlite:///tasklists.db")
+        engine = create_engine("sqlite:///tasklist.db")
         Base.metadata.bind = engine
         dbession = sessionmaker(bind=engine)
         session = dbession()
