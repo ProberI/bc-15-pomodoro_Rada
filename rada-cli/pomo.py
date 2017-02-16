@@ -35,7 +35,7 @@ class Pomodoro(object):
                 sys.stdout.flush()
                 t -= 1
 
-    '''def start(self, title, duration = None, short_break = None, long_break = None):'''
+    
 
     def start(self, title):
         """self.task_dur = duration
@@ -44,11 +44,11 @@ class Pomodoro(object):
         self.title = title
         str(title)
         time_stamp = self.start_time
-        d = []
-        d.append(title)
-        d.append(time_stamp)
+        dstore = []
+        dstore.append(title)
+        dstore.append(time_stamp)
         self.insert()
-        print(d)
+        print(dstore)
         self.cycle_control()
 
     def cycle_control(self):
@@ -60,15 +60,15 @@ class Pomodoro(object):
                     if self.sound_state:
                         self.sound.play()
                     else:
-                        print('\tSound alert is off')
-                    print('\tTake a long_break')
+                        print('\n\Sound alert is off')
+                    print('\nTake a long_break\n')
                     time.sleep(self.long_break)
                     self.cycle = 0
                 else:
                     self.sound = mixer.Sound("w.wav")
 
                     self.play_sound()
-                    print('\tTake a short break')
+                    print('\nTake a short break\n')
                     time.sleep(self.short_break)
                     self.cycle += 1
         except KeyboardInterrupt:
@@ -94,7 +94,15 @@ class Pomodoro(object):
     def stop_app(self, title):
         self.title = title
         self.stop = True
-        print('\n' + title + '  Is completed')
+        self.stop_time = time.ctime()
+        if self.cycle == 3:
+            cycless = 4
+            print('\n' + title + '  Is completed' +
+                  + '\t' + str(cycless))
+        else:
+            cycles = self.cycle
+            print('\n' + title + '  Is completed' +
+                  '\nnumber of cycles: ' + '\t' + str(cycles))
 
     def insert(self):
         engine = create_engine("sqlite:///tasklist.db")
@@ -114,10 +122,6 @@ class Pomodoro(object):
         dbession = sessionmaker()
         dbession.bind = engine
         session = dbession()
-        print(tabulate({'Names':session.query(Tasks.task_name).all(), 'Time': session.query(Tasks.day).all()}, headers="keys", tablefmt="fancy_grid"))
-
-
-
-
-
-
+        print(tabulate({'Names': [str(x[0]) for x in session.query(Tasks.task_name).all()],
+                        'Time': [str(x[0]) for x in session.query(Tasks.day).all()]}, headers="keys",
+                       tablefmt="fancy_grid"))

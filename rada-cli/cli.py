@@ -37,7 +37,6 @@ def docopt_cmd(func):
             opt = docopt(fn.__doc__, arg)
 
         except DocoptExit as e:
-            e.message = 'Please numeric only'
             # The DocoptExit is thrown when the args do not match.
             # We print a message to the user and the usage block.
 
@@ -79,17 +78,13 @@ def custom_print(arg, color='green'):
 class Rada_CLI(cmd.Cmd):
     intro = 'Welcome to my interactive pomodoro timer!\n' \
             + ' (type help for a list of commands.)'
-    prompt = 'pomodoro -->'
+    prompt = 'pomodoro->> '
     file = None
 
     @docopt_cmd
     def do_start(self, arg):
         """ Usage: start <task-title> """
         task = arg['<task-title>']
-        '''duration = int(arg['--duration'])
-        short_break = int(arg['--short_break'])
-        long_break = int(arg['--long_break'])
-        rada.start(task, duration, short_break, long_break)'''
         rada.start(task)
         print(arg)
 
