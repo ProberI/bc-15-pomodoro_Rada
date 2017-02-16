@@ -110,7 +110,7 @@ class Pomodoro(object):
         dbession = sessionmaker()
         dbession.bind = engine
         session = dbession()
-        print(tabulate({'Names':session.query(Tasks.task_name).all(), 'Time': session.query(Tasks.day).all()}, headers="keys"))
+        print(tabulate({'Names':session.query(Tasks.task_name).all(), 'Time': session.query(Tasks.day).all()}, headers="keys", tablefmt="fancy_grid"))
 
 
 
