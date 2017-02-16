@@ -15,7 +15,6 @@ class Pomodoro(object):
         self.sound_state = sound_state
         self.short_break = short_break
         self.long_break = long_break
-        #self.cycles = 0
         self.cycle = 0
         self.stop_time = datetime.datetime.now()
         self.start_time = time.ctime()
@@ -92,13 +91,7 @@ class Pomodoro(object):
         self.title = title
         self.stop = True
         self.stop_time = datetime.datetime.now()
-        if self.cycle == 3:
-            print('\n' + title + '  Is completed' +
-                  + '\t' + str(self.cycle))
-        else:
-
-            print('\n' + title + '  Is completed' +
-                  '\nnumber of cycles: ' + '' + str(self.cycle))
+        print('\n' + title + '  Is completed')
 
     def insert(self):
         engine = create_engine("sqlite:///tasklist.db")
@@ -109,7 +102,6 @@ class Pomodoro(object):
         new_task = Tasks()
         new_task.task_name = self.title
         new_task.day = self.start_time
-        new_task.cycle = self.cycle
         new_task.stop_time = self.stop_time
         session.add(new_task)
         session.commit()
@@ -120,9 +112,8 @@ class Pomodoro(object):
         dbession = sessionmaker()
         dbession.bind = engine
         session = dbession()
-        print(tabulate({'Names': [str(x[0]) for x in session.query(Tasks.task_name).all()],
+        print('\n'+ tabulate({'Names': [str(x[0]) for x in session.query(Tasks.task_name).all()],
                         'Start-Time': [str(x[0]) for x in session.query(Tasks.day).all()],
                         'Stop-Time': [str(x[0]) for x in session.query(Tasks.stop_time).all()],
-                        'Cycles': [str(x[0]) for x in session.query(Tasks.cycle).all()]
                         }, headers="keys",
-                       tablefmt="fancy_grid"))
+                       tablefmt="fancy_grid") + '\n')

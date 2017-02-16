@@ -13,7 +13,6 @@ class Tasks(Base):
     day = Column(String(250))
     task_name = Column(String(250))
     stop_time = Column(String(250))
-    cycle = Column(String(20))
 
 engine = create_engine("sqlite:///tasklist.db")
 
