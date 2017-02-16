@@ -101,4 +101,17 @@ class Pomodoro(object):
         session.add(new_task)
         session.commit()
 
+    def query(self):
+        engine = create_engine("sqlite:///tasklist.db")
+        Base.metadata.bind = engine
+        dbession = sessionmaker()
+        dbession.bind = engine
+        session = dbession()
+        data = session.query(Tasks.task_name, Tasks.day).all()
+        print(data)
+
+
+
+
+
 
