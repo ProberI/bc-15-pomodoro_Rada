@@ -37,6 +37,7 @@ def docopt_cmd(func):
             opt = docopt(fn.__doc__, arg)
 
         except DocoptExit as e:
+            e.message = 'Please numeric only'
             # The DocoptExit is thrown when the args do not match.
             # We print a message to the user and the usage block.
 
@@ -117,9 +118,14 @@ class Rada_CLI(cmd.Cmd):
         """Usage: list"""
         rada.query()
 
+    def do_stop(self, arg):
+        """Usage stop <task-title>"""
+        rada.stop_app(arg)
+
+
+
     def do_quit(self, arg):
         """Quits out of Interactive Mode."""
-
         print('Good Bye!')
         exit()
 
