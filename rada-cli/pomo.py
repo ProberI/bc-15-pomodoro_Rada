@@ -1,6 +1,9 @@
 import time
 from pygame import mixer
 from func import format_time
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+from sqls import Base, Tasks
 
 
 class Pomodoro(object):
@@ -41,6 +44,7 @@ class Pomodoro(object):
         d = []
         d.append(title)
         d.append(time_stamp)
+        self.insert()
         print(d)
         self.cycle_control()
 
@@ -84,3 +88,17 @@ class Pomodoro(object):
     def stop_app(self):
         self.stop = True
         print(self.title + ' Is completed')
+
+    def insert(self):
+        engine = create_engine("sqlite:///tasklist.db")
+        Base.metadata.bind = engine
+        dbession = sessionmaker(bind=engine)
+        session = dbession()
+
+        new_task = Tasks()
+        new_task.task_name = self.title
+        new_task.day = self.start_time
+        session.add(new_task)
+        session.commit()
+
+

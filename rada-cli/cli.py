@@ -26,7 +26,6 @@ from docopt import docopt, DocoptExit
 from pomo import Pomodoro
 
 
-
 def docopt_cmd(func):
     """
     This decorator is used to simplify the try/except block and pass the result
