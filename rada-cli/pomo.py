@@ -16,7 +16,6 @@ class Pomodoro(object):
         self.short_break = short_break
         self.long_break = long_break
         self.cycle = 0
-        self.stop_time = datetime.datetime.now()
         self.start_time = time.ctime()
         self.stop = False
         mixer.init()
@@ -90,7 +89,6 @@ class Pomodoro(object):
     def stop_app(self, title):
         self.title = title
         self.stop = True
-        self.stop_time = datetime.datetime.now()
         print('\n' + title + '  Is completed')
 
     def insert(self):
@@ -102,7 +100,7 @@ class Pomodoro(object):
         new_task = Tasks()
         new_task.task_name = self.title
         new_task.day = self.start_time
-        new_task.stop_time = self.stop_time
+        new_task.stop_time = time.ctime()
         session.add(new_task)
         session.commit()
 
@@ -112,8 +110,9 @@ class Pomodoro(object):
         dbession = sessionmaker()
         dbession.bind = engine
         session = dbession()
-        print('\n'+ tabulate({'Names': [str(x[0]) for x in session.query(Tasks.task_name).all()],
+        print('\n'+ tabulate({
                         'Start-Time': [str(x[0]) for x in session.query(Tasks.day).all()],
                         'Stop-Time': [str(x[0]) for x in session.query(Tasks.stop_time).all()],
+                        'Names': [str(x[0]) for x in session.query(Tasks.task_name).all()]
                         }, headers="keys",
                        tablefmt="fancy_grid") + '\n')
