@@ -5,6 +5,7 @@ from func import format_time
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqls import Base, Tasks
+from tabulate import tabulate
 
 
 class Pomodoro(object):
@@ -32,7 +33,6 @@ class Pomodoro(object):
                 time.sleep(1)
                 sys.stdout.write("\r %s" % format_time(i))
                 sys.stdout.flush()
-                
                 t -= 1
 
     '''def start(self, title, duration = None, short_break = None, long_break = None):'''
@@ -110,8 +110,7 @@ class Pomodoro(object):
         dbession = sessionmaker()
         dbession.bind = engine
         session = dbession()
-        data = session.query(Tasks.task_name, Tasks.day).all()
-        print(data)
+        print(tabulate({'Names':session.query(Tasks.task_name).all(), 'Time': session.query(Tasks.day).all()}, headers="keys"))
 
 
 
