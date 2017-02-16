@@ -44,6 +44,7 @@ class Pomodoro(object):
         d = []
         d.append(title)
         d.append(time_stamp)
+        self.insert()
         print(d)
         self.cycle_control()
 
@@ -94,6 +95,10 @@ class Pomodoro(object):
         DBSession = sessionmaker(bind=engine)
         session = DBSession
 
-        new_task = Tasks(task_name)
+        new_task = Tasks()
+        new_task.task_name = self.title
+        new_task.day = self.start_time
+        session.add(new_task)
+        session.commit()
 
 
