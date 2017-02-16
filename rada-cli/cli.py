@@ -15,14 +15,15 @@ Usage:
 Options:
     -i, --interactive  Interactive Mode
     -h, --help  Show this screen and exit.
-
-
 """
-
+import os
 import sys
 import cmd
+from termcolor import cprint, colored
+from pyfiglet import figlet_format
 from docopt import docopt, DocoptExit
 from pomo import Pomodoro
+
 
 
 def docopt_cmd(func):
@@ -55,6 +56,24 @@ def docopt_cmd(func):
     fn.__doc__ = func.__doc__
     fn.__dict__.update(func.__dict__)
     return fn
+
+def app_header():
+    '''
+        This function creates the header that is displayed when the app
+        launches
+    '''
+    os.system("clear")
+    print("\n")
+    cprint(figlet_format('RADA', font='3-d'), 'white')
+    cprint('====================================================', 'blue')
+    cprint("\tRada implements pomodoro technique.", 'yellow')
+    cprint('====================================================', 'blue')
+    #cprint("\n\tNew to the app? Type 'help' to see a full list of commands\n", 'white')
+
+
+def custom_print(arg, color='green'):
+    ''' This is a simple print function that adds color to printed output. '''
+    cprint("\n" + arg + "\n", color)
 
 
 class Rada_CLI(cmd.Cmd):
@@ -109,6 +128,7 @@ class Rada_CLI(cmd.Cmd):
 opt = docopt(__doc__, sys.argv[1:])
 
 if opt['--interactive']:
+    app_header()
     rada = Pomodoro()
     Rada_CLI().cmdloop()
 
