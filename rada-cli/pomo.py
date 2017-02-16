@@ -1,5 +1,6 @@
 import time
 import sys
+import datetime
 from pygame import mixer
 from func import format_time
 from sqlalchemy import create_engine
@@ -14,7 +15,9 @@ class Pomodoro(object):
         self.sound_state = sound_state
         self.short_break = short_break
         self.long_break = long_break
+        #self.cycles = 0
         self.cycle = 0
+        self.stop_time = datetime.datetime.now()
         self.start_time = time.ctime()
         self.stop = False
         mixer.init()
@@ -35,12 +38,7 @@ class Pomodoro(object):
                 sys.stdout.flush()
                 t -= 1
 
-    
-
     def start(self, title):
-        """self.task_dur = duration
-        self.short_break = short_break
-        self.long_break = long_break"""
         self.title = title
         str(title)
         time_stamp = self.start_time
@@ -66,7 +64,6 @@ class Pomodoro(object):
                     self.cycle = 0
                 else:
                     self.sound = mixer.Sound("w.wav")
-
                     self.play_sound()
                     print('\nTake a short break\n')
                     time.sleep(self.short_break)
@@ -94,15 +91,14 @@ class Pomodoro(object):
     def stop_app(self, title):
         self.title = title
         self.stop = True
-        self.stop_time = time.ctime()
+        self.stop_time = datetime.datetime.now()
         if self.cycle == 3:
-            cycless = 4
             print('\n' + title + '  Is completed' +
-                  + '\t' + str(cycless))
+                  + '\t' + str(self.cycle))
         else:
-            cycles = self.cycle
+
             print('\n' + title + '  Is completed' +
-                  '\nnumber of cycles: ' + '\t' + str(cycles))
+                  '\nnumber of cycles: ' + '' + str(self.cycle))
 
     def insert(self):
         engine = create_engine("sqlite:///tasklist.db")
@@ -113,6 +109,8 @@ class Pomodoro(object):
         new_task = Tasks()
         new_task.task_name = self.title
         new_task.day = self.start_time
+        new_task.cycle = self.cycle
+        new_task.stop_time = self.stop_time
         session.add(new_task)
         session.commit()
 
@@ -123,5 +121,8 @@ class Pomodoro(object):
         dbession.bind = engine
         session = dbession()
         print(tabulate({'Names': [str(x[0]) for x in session.query(Tasks.task_name).all()],
-                        'Time': [str(x[0]) for x in session.query(Tasks.day).all()]}, headers="keys",
+                        'Start-Time': [str(x[0]) for x in session.query(Tasks.day).all()],
+                        'Stop-Time': [str(x[0]) for x in session.query(Tasks.stop_time).all()],
+                        'Cycles': [str(x[0]) for x in session.query(Tasks.cycle).all()]
+                        }, headers="keys",
                        tablefmt="fancy_grid"))
