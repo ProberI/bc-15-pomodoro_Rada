@@ -62,7 +62,7 @@ def app_header():
         This function creates the header that is displayed when the app
         launches
     '''
-    os.system("clear")
+    os.system('cls')
     print("\n")
     cprint(figlet_format('RADA', font='3-d'), 'white')
     cprint('====================================================', 'blue')
