@@ -1,4 +1,5 @@
 import time
+import sys
 from pygame import mixer
 from func import format_time
 from sqlalchemy import create_engine
@@ -29,7 +30,9 @@ class Pomodoro(object):
         while t:
             for i in range(t, 0, -1):
                 time.sleep(1)
-                print(format_time(i))
+                sys.stdout.write("\r %s" % format_time(i))
+                sys.stdout.flush()
+                
                 t -= 1
 
     '''def start(self, title, duration = None, short_break = None, long_break = None):'''
@@ -56,15 +59,15 @@ class Pomodoro(object):
                 if self.sound_state:
                     self.sound.play()
                 else:
-                    print('Sound alert is off')
-                print('Take a long_break')
+                    print('\tSound alert is off')
+                print('\tTake a long_break')
                 time.sleep(self.long_break)
                 self.cycle = 0
             else:
                 self.sound = mixer.Sound("w.wav")
 
                 self.play_sound()
-                print('Take a short break')
+                print('\tTake a short break')
                 time.sleep(self.short_break)
                 self.cycle += 1
 
