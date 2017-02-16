@@ -62,13 +62,12 @@ def app_header():
         This function creates the header that is displayed when the app
         launches
     '''
-    os.system('cls')
+    os.system('cls' if os.name == 'nt' else 'clear')
     print("\n")
     cprint(figlet_format('RADA', font='3-d'), 'white')
     cprint('====================================================', 'blue')
     cprint("\tRada implements pomodoro technique.", 'yellow')
     cprint('====================================================', 'blue')
-    #cprint("\n\tNew to the app? Type 'help' to see a full list of commands\n", 'white')
 
 
 def custom_print(arg, color='green'):
@@ -77,7 +76,7 @@ def custom_print(arg, color='green'):
 
 
 class Rada_CLI(cmd.Cmd):
-    intro = 'Welcome to my interactive pomodoro timer!' \
+    intro = 'Welcome to my interactive pomodoro timer!\n' \
             + ' (type help for a list of commands.)'
     prompt = 'pomodoro -->'
     file = None
