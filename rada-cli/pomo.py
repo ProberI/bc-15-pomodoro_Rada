@@ -92,8 +92,8 @@ class Pomodoro(object):
     def insert(self):
         engine = create_engine("sqlite:///tasklists.db")
         Base.metadata.bind = engine
-        DBSession = sessionmaker(bind=engine)
-        session = DBSession
+        dbession = sessionmaker(bind=engine)
+        session = dbession()
 
         new_task = Tasks()
         new_task.task_name = self.title

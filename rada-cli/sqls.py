@@ -10,7 +10,7 @@ Base = declarative_base()
 class Tasks(Base):
     __tablename__ = 'tasks'  # create table with name tasks
     id = Column(Integer, primary_key=True, autoincrement=True)
-    day = Column(DateTime())
+    day = Column(String(250))
     task_name = Column(String(250))
 
 engine = create_engine("sqlite:///tasklist.db")
