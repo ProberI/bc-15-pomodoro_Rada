@@ -1,4 +1,5 @@
 import time
+import os
 import sys
 import datetime
 from pygame import mixer
@@ -8,6 +9,7 @@ from sqlalchemy.orm import sessionmaker
 from sqls import Base, Tasks
 from tabulate import tabulate
 from termcolor import cprint, colored
+from pyfiglet import Figlet
 
 
 class Pomodoro(object):
@@ -29,12 +31,17 @@ class Pomodoro(object):
             print('Sound alert off')
 
     def timer(self, t):
+        output = ''
+        font = Figlet(font = 'banner3')
 
         while t:
             for i in range(t, 0, -1):
+                output = str(format_time(i))
+                output = font.renderText(output)
+                sys.stdout.write("\r" + output)
                 time.sleep(1)
-                sys.stdout.write("\r %s" % format_time(i))
                 sys.stdout.flush()
+                os.system('cls')
                 t -= 1
 
     def start(self, title):
