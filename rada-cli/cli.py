@@ -78,7 +78,8 @@ def custom_print(arg, color='green'):
 class Rada_CLI(cmd.Cmd):
     intro = '\nWelcome to my interactive pomodoro timer!\n' \
             + ' (type help for a list of commands.)'
-    prompt = 'pomodoro->> '
+    app_prompt = colored('Pomodoro >>  ', 'yellow', attrs=['bold'])
+    prompt = app_prompt
     file = None
 
     @docopt_cmd

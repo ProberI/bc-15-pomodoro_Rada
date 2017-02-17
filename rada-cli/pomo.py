@@ -7,6 +7,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqls import Base, Tasks
 from tabulate import tabulate
+from termcolor import cprint, colored
 
 
 class Pomodoro(object):
@@ -56,18 +57,18 @@ class Pomodoro(object):
                     if self.sound_state:
                         self.sound.play()
                     else:
-                        print('\n\Sound alert is off')
-                    print('\nTake a long_break\n')
+                        cprint(('\n\Sound alert is off\n'),'red')
+                    print colored(('\nTake a long_break\n'),'red')
                     time.sleep(self.long_break)
                     self.cycle = 0
                 else:
                     self.sound = mixer.Sound("w.wav")
                     self.play_sound()
-                    print('\nTake a short break\n')
+                    cprint(('\nTake a short break\n'),'red', attrs=['blink'])
                     time.sleep(self.short_break)
                     self.cycle += 1
         except KeyboardInterrupt:
-            self.stop_app(self.title)
+            pass
 
     def config_app(self, **kwargs):
         try:
@@ -86,8 +87,15 @@ class Pomodoro(object):
         except ValueError:
             return 'Please provide numeric value for config'
 
+        msg = "Hi Configurations are as follows:"
+        msg += "\nTask Time: " + str(self.task_dur)
+        msg += "\nPomodoro Short Break: " + str(self.short_break)
+        msg += "\nPomodoro Long Break: " + str(self.long_break)
+        msg += "\nPomodoro Sound Status: " + str(self.sound_state)
+        cprint((msg), 'green')
+
     def stop_app(self, title):
-        self.title = title
+        title = self.title
         self.stop = True
         print('\n' + title + '  Is completed')
 
