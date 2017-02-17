@@ -64,18 +64,18 @@ class Pomodoro(object):
                     if self.sound_state:
                         self.sound.play()
                     else:
-                        cprint(('\n\Sound alert is off\n'),'red')
-                    print colored(('\nTake a long_break\n'),'red')
+                        cprint(('\n\Sound alert is off\n'),'yellow')
+                    print colored(('\nTake a long_break\n'),'yellow')
                     time.sleep(self.long_break)
                     self.cycle = 0
                 else:
                     self.sound = mixer.Sound("w.wav")
                     self.play_sound()
-                    cprint(('\nTake a short break\n'),'red', attrs=['blink'])
+                    cprint(('\nTake a short break\n'),'yellow', attrs=['blink'])
                     time.sleep(self.short_break)
                     self.cycle += 1
         except KeyboardInterrupt:
-            pass
+            self.stop_app(self.title)
 
     def config_app(self, **kwargs):
         try:
@@ -102,9 +102,9 @@ class Pomodoro(object):
         cprint((msg), 'green')
 
     def stop_app(self, title):
-        title = self.title
+        font = Figlet(font = 'doom')
         self.stop = True
-        print('\n' + title + '  Is completed')
+        cprint(font.renderText('\n' + title + '  Is completed'),'yellow')
 
     def insert(self):
         engine = create_engine("sqlite:///tasklist.db")
