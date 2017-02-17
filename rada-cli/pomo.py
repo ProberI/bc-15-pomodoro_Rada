@@ -58,20 +58,21 @@ class Pomodoro(object):
     def cycle_control(self):
         try:
             while True:
+                font = Figlet(font = 'doom')
                 self.timer(self.task_dur)
                 if self.cycle == 3:
                     self.sound = mixer.Sound("l.wav")
                     if self.sound_state:
                         self.sound.play()
                     else:
-                        cprint(('\n\Sound alert is off\n'),'yellow')
-                    print colored(('\nTake a long_break\n'),'yellow')
+                        cprint(font.renderText(('\n\Sound alert is off\n')),'green')
+                    cprint(font.renderText(('\nTake a long_break\n')),'green')
                     time.sleep(self.long_break)
                     self.cycle = 0
                 else:
                     self.sound = mixer.Sound("w.wav")
                     self.play_sound()
-                    cprint(('\nTake a short break\n'),'yellow', attrs=['blink'])
+                    cprint(font.renderText(('\nTake a short break\n')),'green', attrs=['blink'])
                     time.sleep(self.short_break)
                     self.cycle += 1
         except KeyboardInterrupt:
