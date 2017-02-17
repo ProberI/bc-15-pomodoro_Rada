@@ -13,7 +13,7 @@ from pyfiglet import Figlet
 
 
 class Pomodoro(object):
-    def __init__(self, task_dur=10, short_break=5, long_break=10, sound_state=True):
+    def __init__(self, task_dur=1500, short_break=300, long_break=3060, sound_state=True):
         self.task_dur = task_dur
         self.sound_state = sound_state
         self.short_break = short_break
